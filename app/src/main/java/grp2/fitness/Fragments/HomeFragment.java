@@ -24,6 +24,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         CardView diaryCard = view.findViewById(R.id.diarycard);
         diaryCard.setOnClickListener(this);
 
+        CardView pedometerCard = view.findViewById(R.id.pedometercard);
+        pedometerCard.setOnClickListener(this);
+
+        CardView leaderboardCard = view.findViewById(R.id.leaderboardcard);
+        leaderboardCard.setOnClickListener(this);
+
         return view;
     }
 
@@ -37,6 +43,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch(view.getId()){
             case R.id.diarycard :
                 ((NavigationActivity)getActivity()).updateView(DiaryFragment.class);
+                getActivity().setTitle("Diary");
+                break;
+            case R.id.pedometercard :
+                ((NavigationActivity)getActivity()).updateView(PedometerFragment.class);
+                getActivity().setTitle("Pedometer");
+                break;
+            case R.id.leaderboardcard :
+                ((NavigationActivity)getActivity()).updateView(LeaderboardFragment.class);
+                getActivity().setTitle("Leaderboard");
                 break;
         }
 

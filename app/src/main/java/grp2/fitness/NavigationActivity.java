@@ -48,6 +48,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
         navigationView.setNavigationItemSelectedListener(this);
         updateView(HomeFragment.class);
+        navigationView.getMenu().getItem(0).setChecked(true);
+        setTitle("Home");
     }
 
     public void updateView(Class fragmentClass) {
