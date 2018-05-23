@@ -13,6 +13,7 @@ public class DiaryFragment extends Fragment {
     private int calGoal;
     private int calCurrent;
     private int calRemaining;
+    private int calCut;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,4 +44,8 @@ public class DiaryFragment extends Fragment {
     public void setCalRemaining(int calRemaining) {
         this.calRemaining = calRemaining;
     }
+
+    public int getCalCut() { return calCut; }
+
+    public void setCalCut(int calCut) { this.calCut = calCut; }
 }

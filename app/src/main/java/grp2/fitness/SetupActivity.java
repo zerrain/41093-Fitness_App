@@ -1,5 +1,6 @@
 package grp2.fitness;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,13 +13,11 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import grp2.fitness.Fragments.CalculatorFragment;
 
 public class SetupActivity extends AppCompatActivity {
 
-    private android.support.v7.widget.Toolbar mToolbar;
     private double TDEE;
     private double actLev;
     private EditText editWeight;
@@ -33,10 +32,8 @@ public class SetupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
-        mToolbar = findViewById(R.id.navigation_toolbar);
-        setSupportActionBar(mToolbar);
-
         genderButtons = findViewById(R.id.genderBtns);
+
 
         Spinner dropdown = findViewById(R.id.spinner);
 
@@ -80,7 +77,7 @@ public class SetupActivity extends AppCompatActivity {
         editHeight = findViewById(R.id.editHeight);
         editAge = findViewById(R.id.editAge);
 
-        Button calculateButton = findViewById(R.id.calculateBtn);
+        Button calculateButton = findViewById(R.id.calculateTDEEBtn);
         calculateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +88,7 @@ public class SetupActivity extends AppCompatActivity {
                 else if (editAge.getText().toString().length() == 0)
                     Toast.makeText(SetupActivity.this, "Please enter an age", Toast.LENGTH_SHORT).show();
                 else
-                calculateTDEE();
+                    calculateTDEE();
             }
         });
 
@@ -99,33 +96,30 @@ public class SetupActivity extends AppCompatActivity {
         dropdown.setAdapter(adapter);
     }
 
-    public void calculateTDEE(){
+    public void calculateTDEE() {
         int selectedRadio = genderButtons.getCheckedRadioButtonId();
+        CalculatorFragment calculatorFragment = (CalculatorFragment) getSupportFragmentManager().findFragmentById(R.id.calculator);
 
         switch (selectedRadio) {
             case R.id.maleSelect:
-                TDEE = CalculatorFragment.tdeeCalcMale(Double.parseDouble(editWeight.getText().toString()), Double.parseDouble(editHeight.getText().toString()), Double.parseDouble(editAge.getText().toString()), actLev);
+                calculatorFragment.tdeeCalcMale(Double.parseDouble(editWeight.getText().toString()), Double.parseDouble(editHeight.getText().toString()), Double.parseDouble(editAge.getText().toString()), actLev);
                 break;
             case R.id.femaleSelect:
-                TDEE = CalculatorFragment.tdeeCalcFemale(Double.parseDouble(editWeight.getText().toString()), Double.parseDouble(editHeight.getText().toString()), Double.parseDouble(editAge.getText().toString()), actLev);
+                calculatorFragment.tdeeCalcFemale(Double.parseDouble(editWeight.getText().toString()), Double.parseDouble(editHeight.getText().toString()), Double.parseDouble(editAge.getText().toString()), actLev);
                 break;
             default:
                 Toast.makeText(this, "Please Select A Gender", Toast.LENGTH_SHORT).show();
                 break;
         }
-        tdeeSetup.setText(Math.round(TDEE)+"");
+        tdeeSetup.setText(calculatorFragment.getTDEE() + "");
     }
 
-    public void openSetupGoals(){
+    private void openSetupGoals() {
         Intent intent = new Intent(this, SetupGoals.class);
-        startActivity(intent);
-    }
 
-    public double getTDEE() {
-        return TDEE;
-    }
-
-    public void setTDEE(double TDEE) {
-        this.TDEE = TDEE;
+        if (!(TDEE > 500))
+            Toast.makeText(this, "Please calculate a valid TDEE", Toast.LENGTH_SHORT).show();
+        else
+            startActivity(intent);
     }
 }

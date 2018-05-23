@@ -6,12 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".SetupGoals">
 
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:text="Save &amp; Login" />
+
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/goalsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:text="What goals would you like to achieve" />
+
+    <Spinner
+        android:id="@+id/goalsSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="90dp"
-        android:text="TextView" />
+        android:layout_marginTop="112dp" />
+
+    <EditText
+        android:id="@+id/goalStepsEdit"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="165dp"
+        android:ems="10"
+        android:hint="No. Of Steps Daily"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="162dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/goalStepsEdit"
+        android:layout_centerHorizontal="true"
+        android:text="Hint: 10,000 steps recommended by experts"
+        android:textColor="#050505"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/goalCalText"
+        android:layout_width="98dp"
+        android:layout_height="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="228dp"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/calculateGoalBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Calculate Goal Calories" />
 </RelativeLayout>

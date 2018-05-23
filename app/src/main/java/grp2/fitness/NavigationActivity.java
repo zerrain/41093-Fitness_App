@@ -137,4 +137,8 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         updateView(fragmentClass);
         return true;
     }
+
+    public void setChecked(MenuItem item) {
+        item.setChecked(true);
+    }
 }
