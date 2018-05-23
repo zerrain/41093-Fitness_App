@@ -83,7 +83,6 @@ public class SetupGoals extends AppCompatActivity {
     }
 
     private void openLogin(){
-        Intent intent = new Intent(this, NavigationActivity.class);
-        startActivity(intent);
+        finish();
     }
 }

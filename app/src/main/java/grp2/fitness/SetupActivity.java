@@ -121,5 +121,6 @@ public class SetupActivity extends AppCompatActivity {
             Toast.makeText(this, "Please calculate a valid TDEE", Toast.LENGTH_SHORT).show();
         else
             startActivity(intent);
+            finish();
     }
 }
