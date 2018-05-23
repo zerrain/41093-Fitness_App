@@ -156,25 +156,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/heartratecard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="8dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="heartrate card"
-            android:textSize="100sp" />
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
         android:id="@+id/leaderboardcard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

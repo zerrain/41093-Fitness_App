@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SetupActivity">
+
+    <TextView
+        android:id="@+id/calcHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:text="calc tdee" />
+
+    <RadioGroup
+        android:id="@+id/genderBtns"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="96dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/maleSelect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="male" />
+
+        <RadioButton
+            android:id="@+id/femaleSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="female" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/editWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="172dp"
+        android:ems="10"
+        android:hint="Weight (kg)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editWeight"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Height (cm)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editAge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editHeight"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Age (Years)"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/tdeeSetup"
+        android:layout_width="134dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="123dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
+        android:text="Save &amp; Continue" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/calculateTDEEBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="223dp"
+        android:text="calculate" />
+
+    <TextView
+        android:id="@+id/activeLevelText"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_above="@+id/spinner"
+        android:layout_marginStart="28dp"
+        android:text="How active is your lifestyle?"
+        android:textSize="18sp" />
+
+</RelativeLayout>
