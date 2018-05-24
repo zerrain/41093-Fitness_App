@@ -4,52 +4,67 @@ import android.icu.util.Calendar;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBQueryExpression;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.PaginatedList;
 import com.amazonaws.models.nosql.DailyDataDO;
+import com.amazonaws.models.nosql.DiaryDO;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+
+import grp2.fitness.Helpers.StringUtils;
 
 public class DailyDataManager {
 
-    public enum DailyDataColumn{DATE, HEART_RATE, ENERGY, STEPS}
+    public interface DailyDataListener{
+        void onAllDailyDataSynced(ArrayList<DailyDataDO> allDailyData);
+        void onDailyDataSaved(DailyDataDO dailyData);
+    }
 
-    private DynamoDBMapper dynamoDBMapper;
-    private DailyDataDO dailyData;
+    public enum DailyDataColumn{DATE, HEART_RATE, ENERGY, STEPS}
 
     private String userId;
     private String todayDate;
 
-    public DailyDataManager(String userId){
+    private DynamoDBMapper dynamoDBMapper;
+
+    private DailyDataDO dailyData;
+    private ArrayList<DailyDataDO> allDailyData;
+    private DailyDataListener callback;
+
+    public DailyDataManager(String userId, DailyDataListener callback){
         this.userId = userId;
+        this.callback = callback;
 
-        Date today = Calendar.getInstance().getTime();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-        todayDate = dateFormat.format(today);
+        todayDate = StringUtils.getCurrentDateFormatted();
 
-        AmazonDynamoDBClient dynamoDBClient = new AmazonDynamoDBClient(AWSMobileClient.getInstance().getCredentialsProvider());
+        dailyData = new DailyDataDO();
+        dailyData.setUserId(userId);
+        dailyData.setDate(todayDate);
+
         dynamoDBMapper = DynamoDBMapper.builder()
-                .dynamoDBClient(dynamoDBClient)
+                .dynamoDBClient(new AmazonDynamoDBClient(AWSMobileClient.getInstance().getCredentialsProvider()))
                 .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
                 .build();
 
         syncDailyData();
     }
 
-    public void syncDailyData(){
+    private void syncDailyData(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 dailyData = dynamoDBMapper.load(
                         DailyDataDO.class,
-                        userId,
-                        todayDate);
+                        todayDate,
+                        userId);
 
-                if(dailyData == null){
-                    createDailyData();
-                }
-
-                //TODO - Add callback?
+                saveDailyData();
             }
         }).start();
     }
@@ -94,21 +109,36 @@ public class DailyDataManager {
         saveDailyData();
     }
 
-    private void createDailyData() {
-        dailyData = new DailyDataDO();
-
-        dailyData.setUserId(userId);
-        dailyData.setDate(todayDate);
-
-        saveDailyData();
-    }
-
     private void saveDailyData(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 dynamoDBMapper.save(dailyData);
+                callback.onDailyDataSaved(dailyData);
             }
         }).start();
+    }
+
+    public void syncAllDailyData(final String date) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                allDailyData = new ArrayList<>(dynamoDBMapper.query(DailyDataDO.class, getAllDailyDataQuery(date)));
+                callback.onAllDailyDataSynced(allDailyData);
+            }
+        }).start();
+    }
+
+    private DynamoDBQueryExpression<DailyDataDO> getAllDailyDataQuery(String date){
+        DynamoDBQueryExpression<DailyDataDO> query = new DynamoDBQueryExpression<>();
+        DailyDataDO hashObject = new DailyDataDO();
+        hashObject.setDate(date);
+        query.setHashKeyValues(hashObject);
+
+        return query;
+    }
+
+    public void setCallback(DailyDataListener callback){
+        this.callback = callback;
     }
 }
