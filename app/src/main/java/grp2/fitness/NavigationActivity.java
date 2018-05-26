@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
@@ -25,17 +27,17 @@ import com.amazonaws.regions.Regions;
 
 import java.util.ArrayList;
 
-import grp2.fitness.Fragments.CalculatorFragment;
-import grp2.fitness.Fragments.DiaryFragment;
-import grp2.fitness.Fragments.HeartRateFragment;
-import grp2.fitness.Fragments.HomeFragment;
-import grp2.fitness.Fragments.LeaderboardFragment;
-import grp2.fitness.Fragments.PedometerFragment;
-import grp2.fitness.Fragments.SettingsFragment;
-import grp2.fitness.Fragments.SetupFragment;
-import grp2.fitness.Handlers.CognitoDatasetManager;
-import grp2.fitness.Handlers.DailyDataManager;
-import grp2.fitness.Handlers.GoogleFitApi;
+import grp2.fitness.fragments.CalculatorFragment;
+import grp2.fitness.fragments.DiaryFragment;
+import grp2.fitness.fragments.HeartRateFragment;
+import grp2.fitness.fragments.HomeFragment;
+import grp2.fitness.fragments.LeaderboardFragment;
+import grp2.fitness.fragments.PedometerFragment;
+import grp2.fitness.fragments.SettingsFragment;
+import grp2.fitness.fragments.SetupFragment;
+import grp2.fitness.handlers.CognitoDatasetManager;
+import grp2.fitness.handlers.DailyDataManager;
+import grp2.fitness.handlers.GoogleFitApi;
 
 public class NavigationActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -45,6 +47,7 @@ public class NavigationActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
+    private ProgressBar loadingIcon;
 
     private GoogleFitApi googleFitApi;
 
@@ -62,6 +65,7 @@ public class NavigationActivity extends AppCompatActivity implements
 
         Toolbar toolbar = findViewById(R.id.navigation_toolbar);
         navigationView = findViewById(R.id.navigation_view);
+        loadingIcon = findViewById(R.id.loading_icon);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -117,10 +121,12 @@ public class NavigationActivity extends AppCompatActivity implements
 
     public void updateView(Class fragmentClass) {
         Fragment fragment = null;
+        showLoadingIcon();
 
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
+            hideLoadingIcon();
             e.printStackTrace();
         }
 
@@ -223,6 +229,14 @@ public class NavigationActivity extends AppCompatActivity implements
     @Override
     public void onDailyDataSaved(DailyDataDO dailyData) {
 
+    }
+
+    public void hideLoadingIcon(){
+        loadingIcon.setVisibility(View.GONE);
+    }
+
+    public void showLoadingIcon(){
+        loadingIcon.setVisibility(View.VISIBLE);
     }
 
     public GoogleFitApi getGoogleFitApi(GoogleFitApi.GoogleFitApiCallback callback){

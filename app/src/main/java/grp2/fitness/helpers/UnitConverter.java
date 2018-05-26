@@ -1,4 +1,4 @@
-package grp2.fitness.Helpers;
+package grp2.fitness.helpers;
 
 public class UnitConverter {
 

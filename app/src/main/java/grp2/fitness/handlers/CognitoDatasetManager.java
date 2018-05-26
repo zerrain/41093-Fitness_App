@@ -1,4 +1,4 @@
-package grp2.fitness.Handlers;
+package grp2.fitness.handlers;
 
 import com.amazonaws.mobileconnectors.cognito.CognitoSyncManager;
 import com.amazonaws.mobileconnectors.cognito.Dataset;

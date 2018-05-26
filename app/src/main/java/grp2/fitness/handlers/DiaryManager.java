@@ -1,6 +1,4 @@
-package grp2.fitness.Handlers;
-
-import android.icu.util.Calendar;
+package grp2.fitness.handlers;
 
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
@@ -11,11 +9,9 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
-import grp2.fitness.Helpers.StringUtils;
+import grp2.fitness.helpers.StringUtils;
 
 public class DiaryManager {
 

@@ -1,4 +1,4 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -17,11 +16,10 @@ import com.amazonaws.models.nosql.DailyDataDO;
 import com.amazonaws.models.nosql.DiaryDO;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-import grp2.fitness.Handlers.DailyDataManager;
-import grp2.fitness.Handlers.DiaryManager;
-import grp2.fitness.Helpers.StringUtils;
+import grp2.fitness.handlers.DailyDataManager;
+import grp2.fitness.handlers.DiaryManager;
+import grp2.fitness.helpers.StringUtils;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
@@ -39,6 +37,9 @@ public class HomeFragment extends Fragment implements
     private NavigationActivity activity;
     private DailyDataManager dailyDataManager;
     private ArrayAdapter<DailyDataDO> leaderboardAdapter;
+
+    private boolean diarySynced;
+    private boolean dailyDataSynced;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -126,6 +127,11 @@ public class HomeFragment extends Fragment implements
                 Double consumedEnergy = 0.0;
                 Double remainingEnergy = 0.0;
 
+                diarySynced = true;
+                if(dailyDataSynced){
+                    activity.hideLoadingIcon();
+                }
+
                 for(DiaryDO diaryEntry : diary){
                     consumedEnergy += diaryEntry.getEnergy();
                 }
@@ -143,6 +149,11 @@ public class HomeFragment extends Fragment implements
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                dailyDataSynced = true;
+                if(diarySynced){
+                    activity.hideLoadingIcon();
+                }
+
                 leaderboardAdapter.clear();
                 leaderboardAdapter.addAll(allDailyData);
                 leaderboardAdapter.notifyDataSetChanged();

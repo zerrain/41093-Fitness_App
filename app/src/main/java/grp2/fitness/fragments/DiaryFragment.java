@@ -1,4 +1,4 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +15,7 @@ import com.amazonaws.models.nosql.DiaryDO;
 
 import java.util.ArrayList;
 
-import grp2.fitness.Handlers.DiaryManager;
+import grp2.fitness.handlers.DiaryManager;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
@@ -80,6 +80,7 @@ public class DiaryFragment extends Fragment implements DiaryManager.DiaryManager
                 diaryAdapter.clear();
                 diaryAdapter.addAll(diary);
                 diaryAdapter.notifyDataSetChanged();
+                activity.hideLoadingIcon();
             }
         });
     }

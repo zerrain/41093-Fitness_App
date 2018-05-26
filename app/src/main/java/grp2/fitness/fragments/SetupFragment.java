@@ -1,4 +1,4 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-import grp2.fitness.Helpers.UnitConverter;
+import grp2.fitness.helpers.UnitConverter;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
@@ -57,6 +57,7 @@ public class SetupFragment extends Fragment implements
 
         View view = inflater.inflate(R.layout.fragment_setup, container, false);
         activity = (NavigationActivity) getActivity();
+        activity.hideLoadingIcon();
         sharedPreferences = activity.getSharedPreferences();
 
         initialiseViews(view);

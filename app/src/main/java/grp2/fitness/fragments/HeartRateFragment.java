@@ -1,4 +1,4 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,20 +14,21 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.data.Value;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 
-import grp2.fitness.Handlers.DailyDataManager;
-import grp2.fitness.Handlers.GoogleFitApi;
+import grp2.fitness.handlers.DailyDataManager;
+import grp2.fitness.handlers.GoogleFitApi;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
 import static com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread;
 
-public class PedometerFragment extends Fragment implements
+public class HeartRateFragment extends Fragment implements
         OnDataPointListener,
         GoogleFitApi.GoogleFitApiCallback{
 
     private static final String AUTH_STATE_PENDING = "auth_state_pending";
     private GoogleFitApi googleFitApi;
-    private TextView steps;
+    private TextView heartRate;
+    private NavigationActivity activity;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -37,10 +38,11 @@ public class PedometerFragment extends Fragment implements
             return null;
         }
 
-        View view = inflater.inflate(R.layout.fragment_pedometer, container, false);
-        steps = view.findViewById(R.id.steps);
+        View view = inflater.inflate(R.layout.fragment_heartrate, container, false);
+        activity = (NavigationActivity) getActivity();
+        heartRate = view.findViewById(R.id.heartRate);
 
-        googleFitApi = ((NavigationActivity) getActivity()).getGoogleFitApi(this);
+        googleFitApi = activity.getGoogleFitApi(this);
 
         if (savedInstanceState != null) {
             googleFitApi.setAuthState(savedInstanceState.getBoolean(AUTH_STATE_PENDING));
@@ -53,7 +55,7 @@ public class PedometerFragment extends Fragment implements
     public void onStart() {
         super.onStart();
         googleFitApi.connect();
-        googleFitApi.registerSensorListener(this, new DataType[]{DataType.TYPE_STEP_COUNT_CUMULATIVE});
+        googleFitApi.registerSensorListener(this, new DataType[]{DataType.TYPE_HEART_RATE_BPM});
     }
 
     @Override
@@ -61,9 +63,9 @@ public class PedometerFragment extends Fragment implements
         super.onStop();
         googleFitApi.disconnect();
 
-        String stepString = steps.getText().toString();
-        if(!stepString.equals("") && ((NavigationActivity)getActivity()) != null){
-            ((NavigationActivity)getActivity()).getDailyDataManager().setColumn(DailyDataManager.DailyDataColumn.STEPS, stepString);
+        String heartRateString = heartRate.getText().toString();
+        if(!heartRateString.equals("")){
+            activity.getDailyDataManager().setColumn(DailyDataManager.DailyDataColumn.HEART_RATE, heartRateString);
         }
     }
 
@@ -80,7 +82,8 @@ public class PedometerFragment extends Fragment implements
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    steps.setText(value.toString());
+                    heartRate.setText(value.toString());
+                    activity.hideLoadingIcon();
                 }
             });
         }

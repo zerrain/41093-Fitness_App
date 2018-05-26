@@ -1,4 +1,4 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,17 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.amazonaws.models.nosql.DailyDataDO;
-import com.amazonaws.models.nosql.DiaryDO;
 
 import java.util.ArrayList;
 
-import grp2.fitness.Handlers.DailyDataManager;
-import grp2.fitness.Handlers.DiaryManager;
-import grp2.fitness.Helpers.StringUtils;
+import grp2.fitness.handlers.DailyDataManager;
+import grp2.fitness.helpers.StringUtils;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
@@ -66,6 +63,7 @@ public class LeaderboardFragment extends Fragment implements DailyDataManager.Da
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                activity.hideLoadingIcon();
                 leaderboardAdapter.clear();
                 leaderboardAdapter.addAll(allDailyData);
                 leaderboardAdapter.notifyDataSetChanged();
