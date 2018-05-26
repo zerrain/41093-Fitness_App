@@ -31,9 +31,7 @@ public class UnitConverter {
         }
     }
 
-    public static double getKjFromCal(double calories){
-        return calories * 0.239006;
-    }
+    public static double getKjFromCal(double calories){ return calories / 0.239006; }
 
     public static double getCalFromKj(double kj){
         return kj * 0.239006;
