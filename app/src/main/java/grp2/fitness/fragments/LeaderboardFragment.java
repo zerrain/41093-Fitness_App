@@ -2,6 +2,9 @@ package grp2.fitness.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +16,17 @@ import com.amazonaws.models.nosql.DailyDataDO;
 import java.util.ArrayList;
 
 import grp2.fitness.handlers.DailyDataManager;
+import grp2.fitness.handlers.LeaderboardAdapter;
 import grp2.fitness.helpers.StringUtils;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
 public class LeaderboardFragment extends Fragment implements DailyDataManager.DailyDataListener{
 
-    DailyDataManager dailyDataManager;
-    NavigationActivity activity;
-    ArrayAdapter<DailyDataDO> leaderboardAdapter;
+    private DailyDataManager dailyDataManager;
+    private NavigationActivity activity;
+    private LeaderboardAdapter leaderboardAdapter;
+    private ArrayList<DailyDataDO> leaderboard;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,19 +39,21 @@ public class LeaderboardFragment extends Fragment implements DailyDataManager.Da
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         activity = (NavigationActivity) getActivity();
 
-        ListView list = view.findViewById(R.id.list);
-        ArrayList<DailyDataDO> leaderboard = new ArrayList<>();
+        RecyclerView leaderboardRV = view.findViewById(R.id.leaderboard_list);
+        leaderboardRV.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        leaderboard = new ArrayList<>();
+
+        leaderboardRV.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        leaderboardRV.setLayoutManager(layoutManager);
+
+        leaderboardAdapter = new LeaderboardAdapter(leaderboard);
+        leaderboardRV.setAdapter(leaderboardAdapter);
 
         dailyDataManager = activity.getDailyDataManager();
         dailyDataManager.setCallback(this);
-
-        leaderboardAdapter = new ArrayAdapter<>(
-                getContext(),
-                android.R.layout.simple_list_item_1,
-                leaderboard
-        );
-
-        list.setAdapter(leaderboardAdapter);
         dailyDataManager.syncAllDailyData(StringUtils.getCurrentDateFormatted());
 
         return view;
@@ -64,8 +71,8 @@ public class LeaderboardFragment extends Fragment implements DailyDataManager.Da
             @Override
             public void run() {
                 activity.hideLoadingIcon();
-                leaderboardAdapter.clear();
-                leaderboardAdapter.addAll(allDailyData);
+                leaderboard.clear();
+                leaderboard.addAll(allDailyData);
                 leaderboardAdapter.notifyDataSetChanged();
             }
         });

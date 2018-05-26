@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 
 import grp2.fitness.handlers.DailyDataManager;
 import grp2.fitness.handlers.DiaryManager;
+import grp2.fitness.handlers.LeaderboardAdapter;
 import grp2.fitness.helpers.StringUtils;
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
@@ -36,7 +40,8 @@ public class HomeFragment extends Fragment implements
 
     private NavigationActivity activity;
     private DailyDataManager dailyDataManager;
-    private ArrayAdapter<DailyDataDO> leaderboardAdapter;
+    private LeaderboardAdapter leaderboardAdapter;
+    private ArrayList<DailyDataDO> leaderboard;
 
     private boolean diarySynced;
     private boolean dailyDataSynced;
@@ -57,7 +62,7 @@ public class HomeFragment extends Fragment implements
         CardView leaderboardCard = view.findViewById(R.id.leaderboardcard);
 
         TextView goalEnergyTV = view.findViewById(R.id.goalcal);
-        ListView leaderboardList = view.findViewById(R.id.leaderboard);
+        RecyclerView leaderboardList = view.findViewById(R.id.leaderboard);
         currentEnergyTV     = view.findViewById(R.id.currentcal);
         remainingEnergyTV   = view.findViewById(R.id.remainingcal);
         stepsTV             = view.findViewById(R.id.pedometer_text);
@@ -72,18 +77,20 @@ public class HomeFragment extends Fragment implements
         goalEnergy = getGoalEnergy();
         goalEnergyTV.setText(goalEnergy.toString());
 
-        ArrayList<DailyDataDO> leaderboard = new ArrayList<>();
+        leaderboard = new ArrayList<>();
+
+        leaderboardList.setHasFixedSize(true);
+        leaderboardList.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(activity);
+        leaderboardList.setLayoutManager(layoutManager);
+
+        leaderboardAdapter = new LeaderboardAdapter(leaderboard);
+        leaderboardList.setAdapter(leaderboardAdapter);
 
         dailyDataManager = activity.getDailyDataManager();
         dailyDataManager.setCallback(this);
-
-        leaderboardAdapter = new ArrayAdapter<>(
-                getContext(),
-                android.R.layout.simple_list_item_1,
-                leaderboard
-        );
-
-        leaderboardList.setAdapter(leaderboardAdapter);
         dailyDataManager.syncAllDailyData(StringUtils.getCurrentDateFormatted());
 
         return view;
@@ -154,8 +161,8 @@ public class HomeFragment extends Fragment implements
                     activity.hideLoadingIcon();
                 }
 
-                leaderboardAdapter.clear();
-                leaderboardAdapter.addAll(allDailyData);
+                leaderboard.clear();
+                leaderboard.addAll(allDailyData);
                 leaderboardAdapter.notifyDataSetChanged();
 
                 for(DailyDataDO dailyDataDO : allDailyData){
