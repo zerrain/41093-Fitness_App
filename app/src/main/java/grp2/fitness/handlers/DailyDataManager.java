@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 
 import java.util.ArrayList;
 
+import grp2.fitness.R;
 import grp2.fitness.helpers.StringUtils;
 
 public class DailyDataManager {
@@ -17,7 +18,7 @@ public class DailyDataManager {
         void onDailyDataSaved(DailyDataDO dailyData);
     }
 
-    public enum DailyDataColumn{DATE, HEART_RATE, ENERGY, STEPS}
+    public enum DailyDataColumn{DATE, HEART_RATE, ENERGY, STEPS, NICKNAME}
 
     private String userId;
     private String todayDate;
@@ -28,15 +29,15 @@ public class DailyDataManager {
     private ArrayList<DailyDataDO> allDailyData;
     private DailyDataListener callback;
 
-    public DailyDataManager(String userId, DailyDataListener callback){
+    public DailyDataManager(String userId, DailyDataListener callback, String nickname){
         this.userId = userId;
         this.callback = callback;
 
         todayDate = StringUtils.getCurrentDateFormatted();
-
         dailyData = new DailyDataDO();
         dailyData.setUserId(userId);
         dailyData.setDate(todayDate);
+        dailyData.setNickname(nickname);
 
         saveDailyData();
 
@@ -76,6 +77,9 @@ public class DailyDataManager {
             case HEART_RATE:
                 result = dailyData.getAverageHeartRate().toString();
                 break;
+            case NICKNAME:
+                result = dailyData.getNickname();
+                break;
         }
 
         return result;
@@ -94,6 +98,9 @@ public class DailyDataManager {
                 break;
             case HEART_RATE:
                 dailyData.setAverageHeartRate(Double.parseDouble(value));
+                break;
+            case NICKNAME:
+                dailyData.setNickname(value);
                 break;
         }
 

@@ -58,6 +58,8 @@ public class NavigationActivity extends AppCompatActivity implements
 
     private SharedPreferences sharedPreferences;
 
+    private String userName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,9 @@ public class NavigationActivity extends AppCompatActivity implements
         navigationView.setNavigationItemSelectedListener(this);
         updateView(HomeFragment.class);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        userName = sharedPreferences.getString(getString(R.string.pref_key_personal_name), "No Profile Name!");
+
         initialiseCognito();
         testFirstLogin();
     }
@@ -90,13 +95,11 @@ public class NavigationActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-        String userName = sharedPreferences.getString(getString(R.string.pref_key_personal_name), "No Profile Name!");
         TextView userNameTV = navigationView.getHeaderView(0).findViewById(R.id.profile_name);
         userNameTV.setText(userName);
     }
 
     private void testFirstLogin() {
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         if (sharedPreferences.getBoolean("firststart", true)) {
             sharedPreferences.edit().putBoolean("firststart", false).apply();
             updateView(SetupFragment.class);
@@ -115,7 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements
                 Regions.AP_SOUTHEAST_2, // Region
                 credentialsProvider);
 
-        dailyDataManager = new DailyDataManager(credentialsProvider.getIdentityId(), this);
+        dailyDataManager = new DailyDataManager(credentialsProvider.getIdentityId(), this, userName);
         datasetManager = new CognitoDatasetManager(syncClient);
     }
 
