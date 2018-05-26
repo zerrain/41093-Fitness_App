@@ -93,11 +93,12 @@ public class SetupFragment extends Fragment implements
                         UnitConverter.PhysicalActivity.values()
                 )
         );
+
+        genderRG.setOnClickListener(this);
     }
 
     private void validateFields(){
-        if( weightET.getText() != null && !weightET.getText().toString().equals("")
-                && heightET.getText() != null && !heightET.getText().toString().equals("")){
+        if( weightET.length() != 0 && heightET.length() != 0){
 
             Double weight = 0.0;
             Double height = 0.0;
@@ -106,7 +107,7 @@ public class SetupFragment extends Fragment implements
                 weight = Double.parseDouble(weightET.getText().toString());
                 height = Double.parseDouble(heightET.getText().toString());
 
-                double bmi = UnitConverter.getBMI(weight, height);
+                double bmi = UnitConverter.getBMI(weight, height / 100);
                 String bmiString = String.format(Locale.US, "BMI: %.2f", bmi);
 
                 bmiTV.setText(bmiString);
@@ -114,7 +115,7 @@ public class SetupFragment extends Fragment implements
                 Toast.makeText(activity, "Invalid weight or height", Toast.LENGTH_LONG).show();
             }
 
-            if(ageET.getText() != null && !ageET.getText().toString().equals("")){
+            if(ageET.length() != 0){
                 gender = UnitConverter.Gender.MALE;
                 activityLevel = (UnitConverter.PhysicalActivity) activityLevelSP.getSelectedItem();
 
@@ -180,11 +181,15 @@ public class SetupFragment extends Fragment implements
         validateFields();
     }
 
-    //Submit pressed
+    //Submit or radio pressed
     @Override
     public void onClick(View view) {
+        if(view.getId() == R.id.submit) {
             saveSharedPreferences();
             openHomeFragment();
+        }else{
+            validateFields();
+        }
     }
 
     //Unused callbacks

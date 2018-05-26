@@ -1,35 +1,49 @@
 package grp2.fitness.fragments;
 
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Locale;
 
 import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 import grp2.fitness.helpers.UnitConverter;
 
 public class CalculatorFragment extends Fragment implements
-        TextWatcher{
+        TextWatcher,
+        View.OnClickListener,
+        AdapterView.OnItemSelectedListener{
 
     private int TDEE;
     private TextView bmiValue;
+    private TextView tdeeValue;
     private EditText bmiWeight;
     private EditText bmiHeight;
     private EditText energyKJ;
     private EditText energyCal;
+    private EditText height;
+    private EditText weight;
+    private EditText age;
     private Spinner activityLevel;
+    private RadioGroup gender;
     private NavigationActivity activity;
+    private boolean hasConvertedEnergy;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,15 +61,16 @@ public class CalculatorFragment extends Fragment implements
         bmiWeight = view.findViewById(R.id.bmiWeight);
         bmiHeight = view.findViewById(R.id.bmiHeight);
 
+        tdeeValue = view.findViewById(R.id.tdeeResult);
         energyKJ = view.findViewById(R.id.energyKJ);
         energyCal = view.findViewById(R.id.energyCal);
 
-        Button calcKj = view.findViewById(R.id.calcKJ);
-        Button calcCal = view.findViewById(R.id.calcCal);
-        Button calcTDEE = view.findViewById(R.id.calcTDEEBtn);
+        gender = view.findViewById(R.id.genderBtns);
+        height = view.findViewById(R.id.tdeeHeight);
+        weight = view.findViewById(R.id.tdeeWeight);
+        age = view.findViewById(R.id.tdeeAge);
 
-        activityLevel     = view.findViewById(R.id.activityLevelSp);
-
+        activityLevel = view.findViewById(R.id.activityLevelSp);
         activityLevel.setAdapter(
                 new ArrayAdapter<>(
                         activity,
@@ -64,62 +79,59 @@ public class CalculatorFragment extends Fragment implements
                 )
         );
 
-        calcKj.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                kjCalc();
-            }
-        });
-
-        calcCal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calCalc();
-            }
-        });
-
-        calcTDEE.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO
-            }
-        });
-
-        //TODO - TDEE CALCULATOR
-
-        bmiHeight.addTextChangedListener(this);
-        energyKJ.addTextChangedListener(this);
-        energyCal.addTextChangedListener(this);
+        addListeners();
 
         return view;
     }
 
-    public void tdeeCalcMale(double weight, double height, double age, double activityLevel){
-        TDEE = (int) ((66 + (13.7 * weight) + (5 * height) - (6.8 * age)) * activityLevel);
-    }
+    private void addListeners(){
+        activityLevel.setOnItemSelectedListener(this);
+        gender.setOnClickListener(this);
 
-    public void tdeeCalcFemale(double weight, double height, double age, double activityLevel){
-        TDEE = (int) ((655 + (9.6 * weight) + (1.8 * height) - (4.7 * age)) * activityLevel);
-    }
-
-    public int getTDEE() {
-        return TDEE;
-    }
-
-    public void setTDEE(int TDEE) {
-        this.TDEE = TDEE;
+        bmiHeight.addTextChangedListener(this);
+        bmiWeight.addTextChangedListener(this);
+        energyKJ.addTextChangedListener(this);
+        energyCal.addTextChangedListener(this);
+        height.addTextChangedListener(this);
+        weight.addTextChangedListener(this);
+        age.addTextChangedListener(this);
     }
 
     private void bmiCalc() {
         if (bmiWeight.length() != 0 && bmiHeight.length() != 0) {
             double weight = Double.parseDouble(bmiWeight.getText().toString());
             double height = Double.parseDouble(bmiHeight.getText().toString());
-            bmiValue.setText(String.format("= %.1f", UnitConverter.getBMI(weight, height)));
+            bmiValue.setText(String.format("= %.1f", UnitConverter.getBMI(weight, height / 100)));
+        }
+    }
+
+    private void tdeeCalc(){
+        if(age.length() != 0 && age.length() != 0){
+            UnitConverter.Gender gender = UnitConverter.Gender.MALE;
+            UnitConverter.PhysicalActivity activityLevel = (UnitConverter.PhysicalActivity) this.activityLevel.getSelectedItem();
+
+            if(this.gender.getCheckedRadioButtonId() == R.id.femaleSelect){
+                gender = UnitConverter.Gender.FEMALE;
+            }
+
+            try{
+                int age = Integer.parseInt(this.age.getText().toString());
+                Double height = Double.parseDouble(this.height.getText().toString());
+                Double weight = Double.parseDouble(this.weight.getText().toString());
+
+                Double requiredEnergy = UnitConverter.getRequiredKj(gender, activityLevel, weight, height / 100, age);
+                String energyString = String.format(Locale.US,"Required Energy: %.2f kJ", requiredEnergy);
+
+                tdeeValue.setText(energyString);
+            }catch (NumberFormatException e){
+                Toast.makeText(activity, "Invalid age", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
     public void kjCalc() {
-        if (energyCal.length() != 0) {
+        if (energyCal.length() != 0 && energyCal.hasFocus()) {
+            hasConvertedEnergy = true;
             double calories = Double.parseDouble(energyCal.getText().toString());
             energyKJ.setText(Double.toString(Math.round(UnitConverter.getKjFromCal(calories))), TextView.BufferType.EDITABLE);
         }
@@ -127,7 +139,8 @@ public class CalculatorFragment extends Fragment implements
     }
 
     public void calCalc() {
-        if (energyKJ.length() != 0) {
+        if (energyKJ.length() != 0 && energyKJ.hasFocus()) {
+            hasConvertedEnergy = true;
             double kilojoules = Double.parseDouble(energyKJ.getText().toString());
             energyCal.setText(Double.toString(Math.round(UnitConverter.getCalFromKj(kilojoules))), TextView.BufferType.EDITABLE);
         }
@@ -137,11 +150,33 @@ public class CalculatorFragment extends Fragment implements
     @Override
     public void afterTextChanged(Editable editable){
         bmiCalc();
+        tdeeCalc();
+        if(!hasConvertedEnergy){
+            kjCalc();
+            calCalc();
+        }else{
+            hasConvertedEnergy = false;
+        }
     }
 
+    //Spinner changes
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        tdeeCalc();
+    }
+
+    //Radio pressed
+    @Override
+    public void onClick(View view) {
+        tdeeCalc();
+    }
     //Unused callbacks
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {}
+
+
 }

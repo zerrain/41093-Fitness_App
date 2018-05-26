@@ -87,15 +87,6 @@
         android:text="TDEE Calculator"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/calcCal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/energyCal"
-        android:layout_below="@+id/energyCal"
-        android:layout_centerVertical="true"
-        android:text="Calculate Cal"/>
-
     <EditText
         android:id="@+id/energyCal"
         android:layout_width="150dp"
@@ -163,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/bmiWeight"
         android:layout_below="@+id/bmiWeight"
-        android:hint="Enter Height (m)"
+        android:hint="Enter Height (cm)"
         android:inputType="numberDecimal" />
 
     <TextView
@@ -175,15 +166,6 @@
         android:text="="
         android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/calcKJ"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/energyKJ"
-        android:layout_below="@+id/energyKJ"
-        android:layout_centerVertical="true"
-        android:text="Calculate Kj" />
-
     <TextView
         android:id="@+id/tdeeResult"
         android:layout_width="wrap_content"
@@ -193,12 +175,4 @@
         android:layout_marginBottom="101dp"
         android:text="tdee value" />
 
-    <Button
-        android:id="@+id/calcTDEEBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="37dp"
-        android:text="Calculate TDEE" />
 </RelativeLayout>
