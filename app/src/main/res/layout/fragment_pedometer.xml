@@ -2,15 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="grp2.fitness.Fragments.HomeFragment">
+    tools:context="grp2.fitness.fragments.HomeFragment">
 
     <TextView
-        android:id="@+id/steps"
-        android:layout_width="100dp"
+        android:id="@+id/step_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_margin="36dp"
         android:gravity="center"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
+
+    <ProgressBar
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_below="@+id/step_text"
+        android:layout_centerHorizontal="true"
+        style="?android:progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/circular_progress_determinant"
+        android:id="@+id/step_progress"/>
 
 </RelativeLayout>

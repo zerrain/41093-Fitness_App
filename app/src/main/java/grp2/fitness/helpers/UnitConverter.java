@@ -1,8 +1,8 @@
-package grp2.fitness.Helpers;
+package grp2.fitness.helpers;
 
 public class UnitConverter {
 
-    enum Gender {
+    public enum Gender {
         MALE(5),
         FEMALE(-161);
 
@@ -31,9 +31,7 @@ public class UnitConverter {
         }
     }
 
-    public static double getKjFromCal(double calories){
-        return calories * 0.239006;
-    }
+    public static double getKjFromCal(double calories){ return calories / 0.239006; }
 
     public static double getCalFromKj(double kj){
         return kj * 0.239006;
@@ -44,7 +42,7 @@ public class UnitConverter {
     }
 
     //Mifflin-St. Jeor Equation
-    public static double getRequiredKj(Gender gender, PhysicalActivity physicalActivity, double weightInKg, double heightInMetres, double ageInYears){
-        return getKjFromCal((10 * weightInKg + 6.25 * heightInMetres - 5 * ageInYears + gender.getValue()) * physicalActivity.getValue());
+    public static double getRequiredKj(Gender gender, PhysicalActivity physicalActivity, double weightInKg, double heightInCentimetres, double ageInYears){
+        return getKjFromCal((10 * weightInKg + 6.25 * heightInCentimetres - 5 * ageInYears + gender.getValue()) * physicalActivity.getValue());
     }
 }

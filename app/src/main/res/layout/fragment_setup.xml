@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".SetupActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/calcHeading"
@@ -13,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="46dp"
-        android:text="calc tdee" />
+        android:text="Personal Details" />
 
     <RadioGroup
         android:id="@+id/genderBtns"
@@ -37,7 +36,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="female" />
+
     </RadioGroup>
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editWeight"
+        android:layout_below="@+id/genderBtns"
+        android:ems="10"
+        android:hint="Nickname"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editWeight"
@@ -70,50 +80,58 @@
         android:hint="Age (Years)"
         android:inputType="numberDecimal" />
 
-    <TextView
-        android:id="@+id/tdeeSetup"
-        android:layout_width="134dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="123dp"
-        android:text=""
-        android:textAlignment="center"
-        android:textSize="30sp" />
-
-    <Button
-        android:id="@+id/nextBtn"
+    <EditText
+        android:id="@+id/editSteps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="29dp"
-        android:text="Save &amp; Continue" />
+        android:layout_alignStart="@+id/editAge"
+        android:layout_below="@+id/editAge"
+        android:ems="10"
+        android:hint="Step Goal"
+        android:inputType="numberDecimal" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/activity_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignBottom="@+id/activeLevelText"
+        android:layout_below="@+id/editSteps"
+        android:layout_toEndOf="@+id/activeLevelText"
         android:spinnerMode="dropdown"
         android:textAlignment="center" />
-
-    <Button
-        android:id="@+id/calculateTDEEBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="223dp"
-        android:text="calculate" />
 
     <TextView
         android:id="@+id/activeLevelText"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_above="@+id/spinner"
-        android:layout_marginStart="28dp"
+        android:layout_alignStart="@+id/editSteps"
+        android:layout_below="@+id/editSteps"
         android:text="How active is your lifestyle?"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
+        android:text="Save" />
+
+    <TextView
+        android:id="@+id/bmi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/activeLevelText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"/>
+
+    <TextView
+        android:id="@+id/energy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/bmi"
+        android:layout_alignTop="@+id/bmi"
+        android:layout_marginTop="19dp"/>
 
 </RelativeLayout>
