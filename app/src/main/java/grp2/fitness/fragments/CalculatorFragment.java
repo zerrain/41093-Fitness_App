@@ -1,23 +1,32 @@
-package grp2.fitness.Fragments;
+package grp2.fitness.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import grp2.fitness.NavigationActivity;
 import grp2.fitness.R;
 
 public class CalculatorFragment extends Fragment {
 
     private int TDEE;
+    private NavigationActivity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calculator, container, false);
+
+        if(getActivity() == null || getContext() == null){
+            return null;
+        }
+
+        View view = inflater.inflate(R.layout.fragment_calculator, container, false);
+        activity = (NavigationActivity) getActivity();
+        activity.hideLoadingIcon();
+
+        return view;
     }
 
     public void tdeeCalcMale(double weight, double height, double age, double activityLevel){
