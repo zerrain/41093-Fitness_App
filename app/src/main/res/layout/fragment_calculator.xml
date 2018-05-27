@@ -18,9 +18,8 @@
         android:id="@+id/activityText"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/energyKJ"
-        android:layout_marginBottom="56dp"
+        android:layout_below="@+id/tdeeAge"
         android:text="How active is your lifestyle?"
         android:textSize="18sp" />
 
@@ -49,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/genderBtns"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-229dp"
+        android:layout_marginTop="-295dp"
         android:ems="10"
         android:hint="Enter Weight (kg)"
         android:inputType="numberDecimal" />
@@ -60,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="229dp"
+        android:layout_marginBottom="295dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -83,7 +82,9 @@
         android:id="@+id/tdeeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="350dp"
         android:text="TDEE Calculator"
         android:textSize="20sp" />
 
@@ -114,7 +115,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="19dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="250dp"
         android:ems="10"
         android:hint="Enter Energy (kj)"
         android:inputType="numberDecimal" />
@@ -123,9 +124,8 @@
         android:id="@+id/calcText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/energyCal"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="156dp"
         android:text="Energy Calculator"
         android:textSize="20sp" />
 
@@ -174,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="69dp"
         android:text="0 TDEE" />
 
 </RelativeLayout>
