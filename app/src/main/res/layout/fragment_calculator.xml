@@ -7,10 +7,10 @@
 
     <Spinner
         android:id="@+id/activityLevelSp"
-        android:layout_width="wrap_content"
+        android:layout_width="118dp"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/energyCal"
         android:layout_alignTop="@+id/activityText"
-        android:layout_toEndOf="@+id/calcText"
         android:spinnerMode="dropdown"
         android:textAlignment="center" />
 
@@ -18,9 +18,9 @@
         android:id="@+id/activityText"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignEnd="@+id/calcText"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="132dp"
+        android:layout_alignStart="@+id/energyKJ"
+        android:layout_marginBottom="56dp"
         android:text="How active is your lifestyle?"
         android:textSize="18sp" />
 
@@ -28,7 +28,7 @@
         android:id="@+id/tdeeAge"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/activityText"
+        android:layout_below="@+id/tdeeHeight"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Enter Age (yrs)"
@@ -38,7 +38,7 @@
         android:id="@+id/tdeeHeight"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tdeeAge"
+        android:layout_below="@+id/tdeeWeight"
         android:layout_centerHorizontal="true"
         android:hint="Enter Height (cm)"
         android:inputType="numberDecimal" />
@@ -47,8 +47,9 @@
         android:id="@+id/tdeeWeight"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tdeeHeight"
+        android:layout_below="@+id/genderBtns"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="-229dp"
         android:ems="10"
         android:hint="Enter Weight (kg)"
         android:inputType="numberDecimal" />
@@ -57,8 +58,9 @@
         android:id="@+id/genderBtns"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/tdeeWeight"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="229dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -81,9 +83,7 @@
         android:id="@+id/tdeeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="335dp"
+        android:layout_centerInParent="true"
         android:text="TDEE Calculator"
         android:textSize="20sp" />
 
@@ -92,8 +92,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/energyKJ"
-        android:layout_marginEnd="35dp"
+        android:layout_alignTop="@+id/equalText"
+        android:layout_marginEnd="12dp"
         android:ems="10"
         android:hint="Enter Energy (cal)"
         android:inputType="numberDecimal" />
@@ -111,9 +111,10 @@
         android:id="@+id/energyKJ"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/bmiWeight"
-        android:layout_marginTop="212dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="200dp"
         android:ems="10"
         android:hint="Enter Energy (kj)"
         android:inputType="numberDecimal" />
@@ -124,7 +125,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="173dp"
+        android:layout_marginTop="156dp"
         android:text="Energy Calculator"
         android:textSize="20sp" />
 
@@ -134,7 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="18dp"
         android:text="BMI Calculator"
         android:textSize="20sp" />
 
@@ -142,8 +143,8 @@
         android:id="@+id/bmiWeight"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="60dp"
+        android:layout_alignStart="@+id/activityText"
+        android:layout_below="@+id/bmiText"
         android:ems="10"
         android:hint="Enter Weight (kg)"
         android:inputType="numberDecimal" />
@@ -152,7 +153,7 @@
         android:id="@+id/bmiHeight"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/bmiWeight"
+        android:layout_alignStart="@+id/activityText"
         android:layout_below="@+id/bmiWeight"
         android:hint="Enter Height (cm)"
         android:inputType="numberDecimal" />
@@ -161,8 +162,9 @@
         android:id="@+id/bmiValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bmiWeight"
-        android:layout_marginStart="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="78dp"
+        android:layout_toEndOf="@+id/tdeeAge"
         android:text="="
         android:textSize="30sp" />
 
@@ -172,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="101dp"
-        android:text="tdee value" />
+        android:layout_marginBottom="25dp"
+        android:text="0 TDEE" />
 
 </RelativeLayout>

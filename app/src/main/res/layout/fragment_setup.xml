@@ -92,11 +92,11 @@
 
     <Spinner
         android:id="@+id/activity_spinner"
-        android:layout_width="wrap_content"
+        android:layout_width="163dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/activeLevelText"
-        android:layout_below="@+id/editSteps"
-        android:layout_toEndOf="@+id/activeLevelText"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="130dp"
         android:spinnerMode="dropdown"
         android:textAlignment="center" />
 
@@ -104,8 +104,9 @@
         android:id="@+id/activeLevelText"
         android:layout_width="wrap_content"
         android:layout_height="26dp"
-        android:layout_alignStart="@+id/editSteps"
-        android:layout_below="@+id/editSteps"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="165dp"
         android:text="How active is your lifestyle?"
         android:textSize="18sp" />
 
