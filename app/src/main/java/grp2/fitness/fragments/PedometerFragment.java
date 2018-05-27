@@ -32,7 +32,9 @@ public class PedometerFragment extends Fragment implements
 
     private NavigationActivity activity;
 
-    private TextView steps;
+    private TextView stepGoal;
+    private TextView stepCurrent;
+    private TextView stepRemaining;
     private ProgressBar stepPB;
 
     private int goalSteps;
@@ -49,7 +51,9 @@ public class PedometerFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_pedometer, container, false);
         activity = (NavigationActivity) getActivity();
 
-        steps = view.findViewById(R.id.step_text);
+        stepGoal = view.findViewById(R.id.step_goal);
+        stepCurrent = view.findViewById(R.id.curent_step);
+        stepRemaining = view.findViewById(R.id.remaining_step);
         stepPB = view.findViewById(R.id.step_progress);
 
         googleFitApi = activity.getGoogleFitApi(this);
@@ -91,8 +95,9 @@ public class PedometerFragment extends Fragment implements
             runOnUiThread(() -> {
                 currentSteps = Integer.parseInt(value.toString());
 
-                String stepString = goalSteps + " - " + value.toString() + " = " + (goalSteps - currentSteps);
-                steps.setText(stepString);
+                stepGoal.setText(String.valueOf(goalSteps));
+                stepCurrent.setText(String.valueOf(currentSteps));
+                stepRemaining.setText(String.valueOf(goalSteps - currentSteps));
 
                 stepPB.setProgress(currentSteps);
                 activity.hideLoadingIcon();
